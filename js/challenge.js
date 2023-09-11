@@ -17,16 +17,17 @@ Leave comments on my gameplay, such as: "Wow, what a fun game this is."
  const minusBtn = document.querySelector('#minus')
  const plusBtn = document.querySelector('#plus')
  const likeBtn = document.querySelector('#heart')
+ const pauseBtn = document.querySelector('#pause')
 
 function timer(){
   //counter
-  setInterval(()=>{
+  return setInterval(()=>{
   let counter = counterElement.textContent
   let parsedCount = parseInt(counter)
   counterElement.textContent = parsedCount + 1
   }, 1000)
 }
-timer()
+const interval = timer()
 
 minusBtn.addEventListener('click',()=>{
   //grab the current count 
@@ -46,45 +47,43 @@ plusBtn.addEventListener('click', ()=>{
   counterElement.textContent = newCountNumber
 })
 
-let trackLikes= {}
-
+let trackLikes = {}
 likeBtn.addEventListener('click',()=>{
-  /*
-  <li data-num='2'>
-    "2 has been liked "
-    <span>data-num </span>
-    " time"
-  */
-/*
-set a number that represent the amount of times the count number was liked
-if the same number is liked add it to the set number
-*/
- 
- //grab ul element
  const ul = document.querySelector('.likes')
- //create an li element
- const li = document.createElement('li')
- const span = document.createElement('span')
- //current count number
- let countNumber = parseInt(counterElement.textContent)
- //add text "current number has been liked"
- li.setAttribute('data-num', countNumber)
-//if property already exist in the trackLikes obj with the countNumber
- if(trackLikes.hasOwnProperty(countNumber)){
-    let numberOfLikes = trackLikes[countNumber]++
-    span.textContent = numberOfLikes
- 
-  }else{
-    trackLikes[countNumber] = 1
-    li.textContent = trackLikes[countNumber]
+/*
+ check to see if trackLikes has a property with the number that was liked
+ if it exist, update the number of times that number has been liked in the trackLikes obj and the li element
+ if it doesn't exist, 
+ --create an li, set the li id to the number that was liked
+ -- create a property in the trackLikes obj. Set the property to the number that was liked and its value as 1
+ -- in the li add the text with the number that was liked and number of times it was liked
+ append the li to the ul
+*/
+//grab the number from the h1 element
+const numberThatWasLiked = parseInt(counterElement.textContent)
+//check to see if the number that was liked is a property in the trackLikes obj
+if(trackLikes.hasOwnProperty(numberThatWasLiked)){
+  //if trackLikes has a property of the number that was liked
+  //-- grab the li that has the number that was liked by id
+  const li = document.getElementById(numberThatWasLiked)
+  //if the li exist
+  if(li){
+    //access the number that was liked property in the trackLikes obj and increase the number by 1
+    trackLikes[numberThatWasLiked] ++
   }
-
-
-    li.textContent = `${countNumber} has been liked  `
-    span.textContent = `${trackLikes[countNumber]} times`
-    li.appendChild(span)
-    ul.appendChild(li)
- 
-
-
+  //update the text with the updated number of times the number was liked
+  li.textContent = `${numberThatWasLiked} was liked ${trackLikes[numberThatWasLiked]} times`
+}else{
+  //if trackLikes doesn't have a property of the number that was liked
+  //create an li and set the id to the number that was liked
+  const li = document.createElement('li')
+  li.setAttribute('id', numberThatWasLiked)
+  //add the number that was liked to the trackLikes obj as a property and set it to 1
+  trackLikes[numberThatWasLiked] = 1
+  //in the li add a text with the numberthatwasliked and the number of times it was liked
+  li.textContent = `${numberThatWasLiked} was liked ${trackLikes[numberThatWasLiked]} times`
+  //add li to DOM
+  ul.appendChild(li)
+}
 })
+
