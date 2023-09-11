@@ -19,6 +19,7 @@ Leave comments on my gameplay, such as: "Wow, what a fun game this is."
  const likeBtn = document.querySelector('#heart')
  const pauseBtn = document.querySelector('#pause')
  const submitBtn = document.querySelector('#submit')
+ const form = document.querySelector('#comment-form')
 
 function timer(){
   //counter
@@ -94,10 +95,10 @@ pauseBtn.addEventListener('click', ()=>{
    -pause the counter
    -disable all buttons except the pause button
    -switch the label on the button from "pause" to "resume"
+   -Click the "resume" button to restart the counter and re-enable the buttons.
   */
 
 //if the pause button text === 'pause'
-
 if(pauseBtn.textContent === ' pause '){
   console.log('here')
   // -- disable all buttons
@@ -121,6 +122,19 @@ if(pauseBtn.textContent === ' pause '){
   // -- change the resume button text to pause
   pauseBtn.textContent = ' pause '
 }
+})
 
-
+form.addEventListener('submit',(event)=>{
+  event.preventDefault()
+  //get the parent elmenet where the comments will be added to
+  const parentElementForComments = document.getElementById('list')
+  //store the text input in a variable
+  let comment = document.getElementById('comment-input')
+  //create a p element to store the comment in
+  const p = document.createElement('p')
+  //add the variable that has the input's text to the p element
+  p.textContent = comment.value
+  //append the p element to the parent element
+  parentElementForComments.appendChild(p)
+  comment.value = ''
 })
