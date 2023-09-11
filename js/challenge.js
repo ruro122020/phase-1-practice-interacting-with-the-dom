@@ -18,6 +18,7 @@ Leave comments on my gameplay, such as: "Wow, what a fun game this is."
  const plusBtn = document.querySelector('#plus')
  const likeBtn = document.querySelector('#heart')
  const pauseBtn = document.querySelector('#pause')
+ const submitBtn = document.querySelector('#submit')
 
 function timer(){
   //counter
@@ -27,7 +28,7 @@ function timer(){
   counterElement.textContent = parsedCount + 1
   }, 1000)
 }
-const interval = timer()
+let interval = timer()
 
 minusBtn.addEventListener('click',()=>{
   //grab the current count 
@@ -87,3 +88,39 @@ if(trackLikes.hasOwnProperty(numberThatWasLiked)){
 }
 })
 
+pauseBtn.addEventListener('click', ()=>{
+  /*
+  --Pause the counter, which should:
+   -pause the counter
+   -disable all buttons except the pause button
+   -switch the label on the button from "pause" to "resume"
+  */
+
+//if the pause button text === 'pause'
+
+if(pauseBtn.textContent === ' pause '){
+  console.log('here')
+  // -- disable all buttons
+  minusBtn.disabled = true
+  plusBtn.disabled = true
+  likeBtn.disabled = true
+  submitBtn.disabled = true
+  // -- stop the counter
+  clearInterval(interval)
+  // -- change the pause button text to resume
+  pauseBtn.textContent = ' resume '
+}else{
+  //if the pause button text === 'resume'
+  // -- enable all buttons
+  minusBtn.disabled = false
+  plusBtn.disabled = false
+  likeBtn.disabled = false
+  submitBtn.disabled = false
+  // -- continue the counter
+  interval = timer()
+  // -- change the resume button text to pause
+  pauseBtn.textContent = ' pause '
+}
+
+
+})
